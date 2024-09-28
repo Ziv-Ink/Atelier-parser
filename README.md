@@ -48,10 +48,11 @@ python atelierconvert.py
 3. **Preview and Confirm**: After selecting an image, a preview will be displayed. Click "Confirm" to proceed.
 4. **Save the .spd File**: Choose a location to save the `.spd` file.
 5. **Transfer the .spd File**: After saving the `.spd` file, move it to the tablet and open it using Atelier.
-   
+
 ## License
 
-This project is licensed under the GPL License. See the LICENSE file for more details.
+This project is licensed under the Apache License 2.0. You may use, distribute, and modify this project under the terms of the license. 
+See the LICENSE file for full details.
 
 ## Acknowledgments
 
