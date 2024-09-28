@@ -38,7 +38,7 @@ Simply download the executable from the release section. No installation is requ
 3. Run the script:
 
 ```bash
-python Atelierparser.py
+python atelierparser.py
 ```
 
 ## Usage
