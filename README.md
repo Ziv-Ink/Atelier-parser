@@ -1,7 +1,7 @@
-# AtelierConvert
+# Atelierparser
 
 ## Description
-**AtelierConvert** is a Python tool that makes it easy to turn images into Supernote Atelier-friendly `.spd` files.  
+**Atelierparser** is a Python tool that makes it easy to turn images into Supernote Atelier-friendly `.spd` files.  
 With this tool, you can import any image as a background layer in Atelier, This opens up possibilities for image tracing, using custom templates, grids, and much more.
 ## Features
 - Convert any image (e.g., PNG, JPG, BMP, GIF, WebP) to an `.spd` file.
@@ -38,7 +38,7 @@ Simply download the executable from the release section. No installation is requ
 3. Run the script:
 
 ```bash
-python atelierconvert.py
+python atelierparser.py
 ```
 
 ## Usage
