@@ -9,6 +9,9 @@ With this tool, you can import any image as a background layer in Atelier, This 
 - Simple drag-and-drop functionality.
 - Automatic alignment for consistent template formatting.
 
+**This project has now be superseded by the superior Atelier-Companion https://github.com/Ziv-Ink/Atelier-Companion**
+
+
 ## Requirements
 The executable is standalone and has no requirements—just download and run!
 If you prefer to run the Python script rather than the `.exe`, you will need the following dependencies:
