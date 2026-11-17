@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from PIL import Image, ImageOps, ImageTk
