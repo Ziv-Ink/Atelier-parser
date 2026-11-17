@@ -1,11 +1,25 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from tkinterdnd2 import DND_FILES, TkinterDnD
 from PIL import Image, ImageOps, ImageTk
 import sqlite3
 import io
 import os
 import sys
+
+root = None
+try: # Set up drag & drop, if library is available
+    from tkinterdnd2 import DND_FILES, TkinterDnD
+    root = TkinterDnD.Tk()
+    root.drop_target_register(DND_FILES)
+    def on_drop(event):
+        if event.data:
+            file_path = event.data
+            if file_path.startswith("{") and file_path.endswith("}"):
+                file_path = file_path[1:-1]
+            load_image(file_path)
+    root.dnd_bind('<<Drop>>', on_drop)
+except Exception as _:
+    root = tk.Tk()
 
 # Global variables
 img_path = None
@@ -124,7 +138,7 @@ def split_image_into_tiles(image_path, database_path):
     # Insert hardcoded config entries
     config_entries = {
         "fmt_ver": 2,
-        "ls": bytes.fromhex("0a0b080212074c6179657220310a0e0801120a4261636b67726f756e6410021802"),  
+        "ls": bytes.fromhex("0a0b080212074c6179657220310a0e0801120a4261636b67726f756e6410021802"),
         "thumbnail": b"",
         "vp.x": 249984.0,
         "vp.y": 249984.0,
@@ -161,20 +175,20 @@ def split_image_into_tiles(image_path, database_path):
     # Finalize and rename database
     conn.commit()
     conn.close()
-    
+
     # Ensure the new database path ends with .spd without duplicating the extension
     if not database_path.endswith(".spd"):
         new_database_path = os.path.splitext(database_path)[0] + ".spd"
     else:
         new_database_path = database_path
-    
+
     # If the file already exists, remove it to prevent errors
     if os.path.exists(new_database_path):
         os.remove(new_database_path)
-    
+
     # Rename the temporary .db file to .spd file
     os.rename(database_path, new_database_path)
-    
+
     messagebox.showinfo("Success", f"Image split into {tile_index} tiles and saved as {new_database_path}.")
 
 # Function to handle Confirm button click
@@ -194,7 +208,7 @@ def on_confirm():
                 temp_db_path = save_path.replace(".spd", ".db")
             else:
                 temp_db_path = save_path + ".db"
-            
+
             # Call the function to process the image and create the .spd file
             split_image_into_tiles(img_path, temp_db_path)
 
@@ -226,14 +240,6 @@ def load_image(file_path):
         messagebox.showerror("Error", f"Failed to load image: {str(e)}")
         cancel_selection()
 
-# Function to handle file drop
-def on_drop(event):
-    if event.data:
-        file_path = event.data
-        if file_path.startswith("{") and file_path.endswith("}"):
-            file_path = file_path[1:-1]
-        load_image(file_path)
-
 # Function to browse and select an image
 def browse_image():
     global img_path
@@ -260,8 +266,6 @@ def on_enter(event, widget):
 def on_leave(event, widget):
     widget.config(bg=widget.default_bg)
 
-# Create the main TkinterDnD window
-root = TkinterDnD.Tk()
 root.title("AtelierConvert")
 root.geometry("600x500")
 root.configure(bg="#f0f0f0")  # Set a light background color
@@ -275,8 +279,11 @@ else:
     application_path = os.path.dirname(os.path.abspath(__file__))
 
 # Set the icon using a relative path or bundled executable path
-icon_path = os.path.join(application_path, "logosmall.ico")
-root.iconbitmap(icon_path)
+try:
+    icon_path = os.path.join(application_path, "logosmall.ico")
+    root.iconbitmap(icon_path)
+except Exception as e:
+    print("Error setting icon:", e)
 
 # Configure grid layout for dynamic resizing
 root.columnconfigure(0, weight=1)
@@ -336,10 +343,6 @@ for button in [browse_button, confirm_button, cancel_button]:
 
 # Place the browse button after configuring hover effects
 browse_button.grid(row=2, column=0, columnspan=3, sticky='ew', padx=10, pady=10)
-
-# Enable drag-and-drop functionality
-root.drop_target_register(DND_FILES)
-root.dnd_bind('<<Drop>>', on_drop)
 
 # Start the Tkinter main loop
 root.mainloop()
