@@ -9,6 +9,7 @@ import os
 import sys
 
 root = None
+instruction_label_text = None
 try: # Set up drag & drop, if library is available
     from tkinterdnd2 import DND_FILES, TkinterDnD
     root = TkinterDnD.Tk()
@@ -20,8 +21,10 @@ try: # Set up drag & drop, if library is available
                 file_path = file_path[1:-1]
             load_image(file_path)
     root.dnd_bind('<<Drop>>', on_drop)
+    instruction_label_text = "Drag and Drop an Image or Browse to Select"
 except Exception as _:
     root = tk.Tk()
+    instruction_label_text = "Browse to Select"
 
 # Global variables
 img_path = None
@@ -296,7 +299,7 @@ root.rowconfigure(1, weight=1)
 root.rowconfigure(2, weight=0)
 
 # Add an instruction label at the top
-instruction_label = tk.Label(root, text="Drag and Drop an Image or Browse to Select", font=("Roboto", 16, "bold"), fg="black", bg="#f0f0f0")
+instruction_label = tk.Label(root, text=instruction_label_text, font=("Roboto", 16, "bold"), fg="black", bg="#f0f0f0")
 instruction_label.grid(row=0, column=0, columnspan=3, pady=20)
 
 # Set up a frame with border for the image preview area
